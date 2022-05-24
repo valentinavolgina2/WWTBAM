@@ -1,0 +1,27 @@
+<h1><%= t('views.users.index.rating') %></h1>
+
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
+  <table class="users-table table">
+    <thead>
+      <tr>
+        <th class="text-center"><%= t('views.users.index.rating') %></th>
+        <th class="text-center"><%= t('views.users.index.name') %></th>
+        <th class="text-center"><%= t('views.users.index.prize') %></th>
+        <th class="text-center"><%= t('views.users.index.games') %></th>
+        <th class="text-center"><%= t('views.users.index.per_game') %></th>
+      </tr>
+    </thead>
+
+    <% @users.each_with_index do |user, index| %>
+      <tr class="text-center">
+        <td><%= index + 1 %></td>
+        <td><%= link_to user.name, user_path(user) %></td>
+        <td><%= number_to_currency user.balance %></td>
+        <td><%= user.games.count %></td>
+        <td><%= user.average_prize %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+</div>

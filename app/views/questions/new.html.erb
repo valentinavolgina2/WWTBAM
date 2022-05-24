@@ -1,0 +1,28 @@
+<%= form_tag questions_path, multipart: true do %>
+
+  <div>
+    <h3 class="buffer-bottom">
+      <%= t('views.questions.new.level_instructions') %>
+    </h3>
+    <p>
+      <em><%= t('views.questions.new.format_instructions') %>:</em>
+    </p>
+    <p>
+      <code>
+        <%= t('views.questions.new.format') %>
+      </code>
+    </p>
+  </div>
+  <div class="field buffer-top">
+    <%= label_tag "#{t('views.questions.new.level')} — #{Question::QUESTION_LEVELS}" %><br>
+    <%= text_field_tag :questions_level %>
+  </div>
+  <div class="field buffer-top">
+    <%= label_tag t('views.questions.new.file') %><br>
+    <%= file_field_tag :questions_file %>
+  </div>
+
+  <div class="actions buffer-top">
+    <%= submit_tag %>
+  </div>
+<% end %>
