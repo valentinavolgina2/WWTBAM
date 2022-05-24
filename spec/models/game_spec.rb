@@ -92,4 +92,15 @@ RSpec.describe Game, type: :model do
       expect(user.balance).to eq prize
     end
   end
+
+  context 'game methods' do
+    it '.current_game_question' do
+      current_question = game_w_questions.current_game_question
+      expect(current_question.level).to eq(game_w_questions.current_level)
+    end
+
+    it '.previous_level' do
+      expect(game_w_questions.previous_level).to eq(game_w_questions.current_level - 1)
+    end
+  end
 end
