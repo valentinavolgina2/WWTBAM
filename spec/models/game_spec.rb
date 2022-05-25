@@ -142,7 +142,7 @@ RSpec.describe Game, type: :model do
     end
 
     context 'when answer after time is over' do
-      it 'should return false' do
+      it 'should return false and finish the game' do
         game_w_questions.created_at = 1.hour.ago
 
         current_level = 6
