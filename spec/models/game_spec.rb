@@ -174,14 +174,15 @@ RSpec.describe Game, type: :model do
   end
 
   describe '#current_game_question' do
-    it 'should return question with level equals to game level' do
-      expect(game_w_questions.current_game_question.level).to eq(game_w_questions.current_level)
+    it 'returns first game question' do
+      first_question = game_w_questions.game_questions.first
+      expect(game_w_questions.current_game_question).to eq(first_question)
     end
   end
 
   describe '#previous_level' do
     context 'when current level is 0' do
-      it 'should return - 1' do
+      it 'returns - 1' do
         expect(game_w_questions.previous_level).to eq(-1)
       end
     end
@@ -189,7 +190,7 @@ RSpec.describe Game, type: :model do
     context 'when current level is 4' do
       let!(:game_w_questions) { create(:game_with_questions, current_level: 4) }
 
-      it 'should return 3' do
+      it 'returns 3' do
         expect(game_w_questions.previous_level).to eq(3)
       end
     end
