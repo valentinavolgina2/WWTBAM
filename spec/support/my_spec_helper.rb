@@ -1,7 +1,7 @@
 module MySpecHelper
   def generate_questions(number)
     number.times do
-      FactoryBot.create(:question)
+      create(:question)
     end
   end
 end
