@@ -31,7 +31,7 @@ RSpec.describe Game, type: :model do
     context 'when game is finished' do
       before(:each) do
         game_w_questions.finished_at = Time.now
-        expect(game_w_questions.finished?).to be_truthy
+        expect(game_w_questions.finished?).to be true
       end
 
       it 'should return :won' do
@@ -73,7 +73,7 @@ RSpec.describe Game, type: :model do
       expect(prize).to eq(Game::PRIZES.first)
 
       expect(game_w_questions.status).to eq :money
-      expect(game_w_questions.finished?).to be_truthy
+      expect(game_w_questions.finished?).to be true
       expect(user.balance).to eq prize
     end
   end
@@ -106,7 +106,7 @@ RSpec.describe Game, type: :model do
 
           expect(game_w_questions.current_level).to eq(Question::QUESTION_LEVELS.max + 1)
           expect(game_w_questions.status).to eq :won
-          expect(game_w_questions.finished?).to be_truthy
+          expect(game_w_questions.finished?).to be true
           expect(game_w_questions.prize).to eq(Game::PRIZES.last)
         end
       end
@@ -121,7 +121,7 @@ RSpec.describe Game, type: :model do
           expect(game_w_questions.current_level).to eq(current_level + 1)
           expect(game_w_questions.current_game_question).not_to eq(current_question)
           expect(game_w_questions.status).to eq :in_progress
-          expect(game_w_questions.finished?).to be_falsey
+          expect(game_w_questions.finished?).to be false
         end
       end
     end
@@ -137,7 +137,7 @@ RSpec.describe Game, type: :model do
         expect(game_w_questions.current_level).to eq(current_level)
         expect(game_w_questions.current_game_question).to eq(current_question)
         expect(game_w_questions.status).to eq :fail
-        expect(game_w_questions.finished?).to be_truthy
+        expect(game_w_questions.finished?).to be true
       end
     end
 
@@ -150,11 +150,11 @@ RSpec.describe Game, type: :model do
 
         answer_key = %w(a b c d).sample
 
-        expect(game_w_questions.answer_current_question!(answer_key)).to be_falsey
+        expect(game_w_questions.answer_current_question!(answer_key)).to be false
         expect(game_w_questions.current_level).to eq(current_level)
         expect(game_w_questions.prize).to eq(Game::PRIZES[4])
         expect(game_w_questions.status).to eq(:timeout)
-        expect(game_w_questions.finished?).to be_truthy
+        expect(game_w_questions.finished?).to be true
       end
     end
   end

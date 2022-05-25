@@ -16,7 +16,7 @@ RSpec.describe GameQuestion, type: :model do
 
   describe '#answer_correct?' do
     it 'should return true' do
-      expect(game_question.answer_correct?('b')).to be_truthy
+      expect(game_question.answer_correct?('b')).to be true
     end
   end
 
@@ -37,7 +37,7 @@ RSpec.describe GameQuestion, type: :model do
       key = game_question.correct_answer_key
 
       expect(key).to eq 'b'
-      expect(game_question.answer_correct?(key)).to be_truthy
+      expect(game_question.answer_correct?(key)).to be true
     end
   end
 end
