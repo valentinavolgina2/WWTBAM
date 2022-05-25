@@ -130,7 +130,7 @@ RSpec.describe Game, type: :model do
       it 'should finish the game' do
         current_level = game_w_questions.current_level
         current_question = game_w_questions.current_game_question
-        wrong_answer_key = (%w(a b c d) - [current_question.correct_answer_key]).sample
+        wrong_answer_key = (%w[a b c d] - [current_question.correct_answer_key]).sample
 
         game_w_questions.answer_current_question!(wrong_answer_key)
 
@@ -148,7 +148,7 @@ RSpec.describe Game, type: :model do
         current_level = 6
         game_w_questions.current_level = current_level
 
-        answer_key = %w(a b c d).sample
+        answer_key = %w[a b c d].sample
 
         expect(game_w_questions.answer_current_question!(answer_key)).to be false
         expect(game_w_questions.current_level).to eq(current_level)

@@ -46,7 +46,7 @@ class GameQuestion < ActiveRecord::Base
   def add_fifty_fifty
     self.help_hash[:fifty_fifty] = [
       correct_answer_key,
-      (%w(a b c d) - [correct_answer_key]).sample
+      (%w[a b c d] - [correct_answer_key]).sample
     ]
     save
   end
