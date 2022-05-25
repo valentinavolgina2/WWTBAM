@@ -29,7 +29,7 @@ RSpec.describe Game, type: :model do
 
   describe '#status' do
     context 'when game is finished' do
-      before(:each) do
+      before do
         game_w_questions.finished_at = Time.now
         expect(game_w_questions.finished?).to be true
       end
@@ -92,7 +92,7 @@ RSpec.describe Game, type: :model do
   end
 
   describe '#answer_current_question!' do
-    before(:each) do
+    before do
       expect(game_w_questions.status).to eq(:in_progress)
     end
 
