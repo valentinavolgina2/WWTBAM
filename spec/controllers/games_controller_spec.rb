@@ -307,6 +307,61 @@ RSpec.describe GamesController, type: :controller do
           end
         end
       end
+
+      context 'asks 50/50 help' do
+        context 'and help is not used' do
+          before do
+            expect(game_w_questions.current_game_question.help_hash[:fifty_fifty]).not_to be
+            expect(game_w_questions.fifty_fifty_used).to be false
+
+            put :help, id: game_w_questions.id, help_type: :fifty_fifty
+          end
+          let!(:game) { assigns(:game) }
+
+          it 'uses 50/50 help' do
+            expect(game.fifty_fifty_used).to be true
+          end
+
+          it 'adds 50/50 help to help hash' do
+            expect(game.current_game_question.help_hash).to include(:fifty_fifty)
+          end
+
+          it 'adds 50/50 help as array of 2 elements' do
+            expect(game.current_game_question.help_hash[:fifty_fifty].size).to eq 2
+          end
+
+          it 'adds 50/50 help with correct answer key' do
+            correct_answer_key = game.current_game_question.correct_answer_key
+            expect(game.current_game_question.help_hash[:fifty_fifty]).to include(correct_answer_key)
+          end
+
+          it 'continues the game' do
+            expect(game.finished?).to be false
+          end
+
+          it 'redirects to game view' do
+            expect(response).to redirect_to(game_path(game))
+          end
+        end
+
+        context 'and help already used' do
+          before do
+            game_w_questions.fifty_fifty_used = true
+            game_w_questions.save
+
+            put :help, id: game_w_questions.id, help_type: :fifty_fifty
+          end
+          let!(:game) { assigns(:game) }
+
+          it 'flashes alert' do
+            expect(flash[:alert]).to be
+          end
+
+          it 'redirects to game view' do
+            expect(response).to redirect_to(game_path(game))
+          end
+        end
+      end
     end
   end
 end
