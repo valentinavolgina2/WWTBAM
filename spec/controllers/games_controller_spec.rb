@@ -362,6 +362,57 @@ RSpec.describe GamesController, type: :controller do
           end
         end
       end
+
+      context 'asks friend call' do
+        context 'and help is not used' do
+          before do
+            expect(game_w_questions.current_game_question.help_hash[:friend_call]).not_to be
+            expect(game_w_questions.friend_call_used).to be false
+
+            put :help, id: game_w_questions.id, help_type: :friend_call
+          end
+          let!(:game) { assigns(:game) }
+
+          it 'uses friend call' do
+            expect(game.friend_call_used).to be true
+          end
+
+          it 'adds friend call to help hash' do
+            expect(game.current_game_question.help_hash).to include(:friend_call)
+          end
+
+          it 'adds friend call help with answer key' do
+            # 'John thinks that it is option B' - friend call help structure
+            expect(%w[A B C D]).to include(game.current_game_question.help_hash[:friend_call].last)
+          end
+
+          it 'continues the game' do
+            expect(game.finished?).to be false
+          end
+
+          it 'redirects to game view' do
+            expect(response).to redirect_to(game_path(game))
+          end
+        end
+
+        context 'and help already used' do
+          before do
+            game_w_questions.friend_call_used = true
+            game_w_questions.save
+
+            put :help, id: game_w_questions.id, help_type: :friend_call
+          end
+          let!(:game) { assigns(:game) }
+
+          it 'flashes alert' do
+            expect(flash[:alert]).to be
+          end
+
+          it 'redirects to game view' do
+            expect(response).to redirect_to(game_path(game))
+          end
+        end
+      end
     end
   end
 end
