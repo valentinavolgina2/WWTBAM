@@ -64,7 +64,7 @@ class GameQuestion < ActiveRecord::Base
   end
 
   def apply_help!(help_type)
-    case help_type.to_s
+    case help_type
     when :fifty_fifty
       add_fifty_fifty
     when :audience_help

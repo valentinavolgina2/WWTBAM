@@ -272,5 +272,41 @@ RSpec.describe GamesController, type: :controller do
         expect(flash[:alert]).to be
       end
     end
+
+    context 'when logged in user' do
+      before { sign_in user }
+
+      context 'asks audience help' do
+        context 'and help is not used' do
+          before do
+            expect(game_w_questions.current_game_question.help_hash[:audience_help]).not_to be
+            expect(game_w_questions.audience_help_used).to be false
+
+            put :help, id: game_w_questions.id, help_type: :audience_help
+          end
+          let!(:game) { assigns(:game) }
+
+          it 'uses audience help' do
+            expect(game.audience_help_used).to be true
+          end
+
+          it 'adds audience help to help hash' do
+            expect(game.current_game_question.help_hash).to include(:audience_help)
+          end
+
+          it 'adds audience help to hash with 4 keys' do
+            expect(game.current_game_question.help_hash[:audience_help].keys).to contain_exactly('a', 'b', 'c', 'd')
+          end
+
+          it 'continues the game' do
+            expect(game.finished?).to be false
+          end
+
+          it 'redirects to game view' do
+            expect(response).to redirect_to(game_path(game))
+          end
+        end
+      end
+    end
   end
 end
