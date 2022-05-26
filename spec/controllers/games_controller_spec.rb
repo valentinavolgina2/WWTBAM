@@ -67,6 +67,22 @@ RSpec.describe GamesController, type: :controller do
   end
 
   describe '#create' do
+    context 'when anonymous' do
+      before { post :create }
+
+      it 'returns status not equal 200' do
+        expect(response.status).not_to eq(200)
+      end
+
+      it 'redirects to new_user_session_path' do
+        expect(response).to redirect_to(new_user_session_path)
+      end
+
+      it 'flashes alert' do
+        expect(flash[:alert]).to be
+      end
+    end
+
     context 'when logged in user' do
       before do
         sign_in user
@@ -117,6 +133,22 @@ RSpec.describe GamesController, type: :controller do
   end
 
   describe '#answer' do
+    context 'when anonymous' do
+      before { put :answer, id: game_w_questions.id, letter: game_w_questions.current_game_question.correct_answer_key }
+
+      it 'returns status not equal 200' do
+        expect(response.status).not_to eq(200)
+      end
+
+      it 'redirects to new_user_session_path' do
+        expect(response).to redirect_to(new_user_session_path)
+      end
+
+      it 'flashes alert' do
+        expect(flash[:alert]).to be
+      end
+    end
+
     context 'when logged in user' do
       before { sign_in user }
 
@@ -147,6 +179,22 @@ RSpec.describe GamesController, type: :controller do
   end
 
   describe '#take_money' do
+    context 'when anonymous' do
+      before { put :take_money, id: game_w_questions.id }
+
+      it 'returns status not equal 200' do
+        expect(response.status).not_to eq(200)
+      end
+
+      it 'redirects to new_user_session_path' do
+        expect(response).to redirect_to(new_user_session_path)
+      end
+
+      it 'flashes alert' do
+        expect(flash[:alert]).to be
+      end
+    end
+
     context 'when logged in user' do
       context 'when game is not finished' do
         before do
@@ -178,6 +226,24 @@ RSpec.describe GamesController, type: :controller do
         it 'flashes warning' do
           expect(flash[:warning]).to be
         end
+      end
+    end
+  end
+
+  describe '#help' do
+    context 'when anonymous' do
+      before { put :help, id: game_w_questions.id, help_type: :fifty_fifty }
+
+      it 'returns status not equal 200' do
+        expect(response.status).not_to eq(200)
+      end
+
+      it 'redirects to new_user_session_path' do
+        expect(response).to redirect_to(new_user_session_path)
+      end
+
+      it 'flashes alert' do
+        expect(flash[:alert]).to be
       end
     end
   end
