@@ -153,8 +153,10 @@ RSpec.describe GamesController, type: :controller do
       before { sign_in user }
 
       context 'and game is not finished' do
+        before { put :answer, id: game_w_questions.id, letter: answer_key }
+
         context 'and answer is correct' do
-          before { put :answer, id: game_w_questions.id, letter: game_w_questions.current_game_question.correct_answer_key }
+          let!(:answer_key) { game_w_questions.current_game_question.correct_answer_key }
           let!(:game) { assigns(:game) }
 
           it 'continues game' do
@@ -175,8 +177,7 @@ RSpec.describe GamesController, type: :controller do
         end
 
         context 'and answer is not correct' do
-          let!(:wrong_answer_key) { (%w[a b c d] - [game_w_questions.current_game_question.correct_answer_key]).sample }
-          before { put :answer, id: game_w_questions.id, letter: wrong_answer_key }
+          let!(:answer_key) { (%w[a b c d] - [game_w_questions.current_game_question.correct_answer_key]).sample }
           let!(:game) { assigns(:game) }
 
           it 'finishes game' do
