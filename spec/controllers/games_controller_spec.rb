@@ -173,6 +173,32 @@ RSpec.describe GamesController, type: :controller do
             expect(flash.empty?).to be true
           end
         end
+
+        context 'and answer is not correct' do
+          let!(:wrong_answer_key) { (%w[a b c d] - [game_w_questions.current_game_question.correct_answer_key]).sample }
+          before { put :answer, id: game_w_questions.id, letter: wrong_answer_key }
+          let!(:game) { assigns(:game) }
+
+          it 'finishes game' do
+            expect(game.finished?).to be true
+          end
+
+          it 'finishes game with fail status' do
+            expect(game.status).to eq(:fail)
+          end
+
+          it 'does not increase game level' do
+            expect(game.current_level).to be 0
+          end
+
+          it 'redirects to user profile' do
+            expect(response).to redirect_to(user_path(user))
+          end
+
+          it 'flashes alert' do
+            expect(flash[:alert]).to be
+          end
+        end
       end
 
     end
