@@ -81,6 +81,25 @@ RSpec.describe GameQuestion, type: :model do
     end
   end
 
+  describe '#add_friend_call' do
+    context 'when friend call was not used' do
+      before do
+        expect(game_question.help_hash).not_to include(:friend_call)
+
+        game_question.add_friend_call
+      end
+
+      it 'adds friend call to help hash' do
+        expect(game_question.help_hash).to include(:friend_call)
+      end
+
+      it 'adds friend call help with answer key' do
+        # 'John thinks that it is option B' - friend call help structure
+        expect(%w[A B C D]).to include(game_question.help_hash[:friend_call].last)
+      end
+    end
+  end
+
   describe '#help_hash' do
     context 'when game just created' do
       it 'returns empty hash' do
