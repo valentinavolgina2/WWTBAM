@@ -15,7 +15,7 @@ module Billionaire
     config.i18n.locale = :en
     config.i18n.fallbacks = [:en]
 
-    config.time_zone = 'Moscow'
+    config.time_zone = 'Pacific Time (US & Canada)'
 
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
