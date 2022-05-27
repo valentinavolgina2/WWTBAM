@@ -47,7 +47,7 @@ RSpec.describe 'users/show', type: :view do
 
   context 'when current user is nil' do
     let!(:current_user) { nil }
-    
+
     it 'renders user name' do
       expect(rendered).to match 'Sam'
     end
