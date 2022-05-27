@@ -95,7 +95,7 @@ RSpec.describe GameQuestion, type: :model do
 
       it 'adds friend call help with answer key' do
         # 'John thinks that it is option B' - friend call help structure
-        expect(%w[A B C D]).to include(game_question.help_hash[:friend_call].last)
+        expect(game_question.help_hash[:friend_call]).to include ('it is option B')
       end
     end
   end
