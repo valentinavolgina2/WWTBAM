@@ -16,7 +16,7 @@
     <% @users.each_with_index do |user, index| %>
       <tr class="text-center">
         <td><%= index + 1 %></td>
-        <td><%= link_to user.name, user_path(user) %></td>
+        <td><%= link_to user.name, user_path(user), id: "user_#{user.id}" %></td>
         <td><%= number_to_currency user.balance %></td>
         <td><%= user.games.count %></td>
         <td><%= user.average_prize %></td>
