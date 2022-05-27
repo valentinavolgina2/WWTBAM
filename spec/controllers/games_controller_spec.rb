@@ -5,14 +5,13 @@ RSpec.describe GamesController, type: :controller do
   let(:user) { create(:user) }
   let(:admin) { create(:user, is_admin: true) }
   let(:game_w_questions) { create(:game_with_questions, user: user) }
+  subject(:response_status) { response.status }
 
   describe '#show' do
     context 'when anonymous' do
       before { get :show, id: game_w_questions.id }
 
-      it 'returns status not equal 200' do
-        expect(response.status).not_to eq(200)
-      end
+      it { expect(response_status).not_to eq(200) }
 
       it 'redirects to new_user_session_path' do
         expect(response).to redirect_to(new_user_session_path)
@@ -35,9 +34,7 @@ RSpec.describe GamesController, type: :controller do
           expect(response).to render_template('show')
         end
 
-        it 'returns status 200' do
-          expect(response.status).to eq(200)
-        end
+        it { expect(response_status).to eq(200) }
 
         it 'gets not finished game' do
           expect(game.finished?).to be false
@@ -55,9 +52,7 @@ RSpec.describe GamesController, type: :controller do
           expect(response).to redirect_to(root_path)
         end
 
-        it 'returns status is not 200' do
-          expect(response.status).not_to eq(200)
-        end
+        it { expect(response_status).not_to eq(200) }
 
         it 'flashes alert' do
           expect(flash[:alert]).to be
@@ -70,9 +65,7 @@ RSpec.describe GamesController, type: :controller do
     context 'when anonymous' do
       before { post :create }
 
-      it 'returns status not equal 200' do
-        expect(response.status).not_to eq(200)
-      end
+      it { expect(response_status).not_to eq(200) }
 
       it 'redirects to new_user_session_path' do
         expect(response).to redirect_to(new_user_session_path)
@@ -136,9 +129,7 @@ RSpec.describe GamesController, type: :controller do
     context 'when anonymous' do
       before { put :answer, id: game_w_questions.id, letter: game_w_questions.current_game_question.correct_answer_key }
 
-      it 'returns status not equal 200' do
-        expect(response.status).not_to eq(200)
-      end
+      it { expect(response_status).not_to eq(200) }
 
       it 'redirects to new_user_session_path' do
         expect(response).to redirect_to(new_user_session_path)
@@ -209,9 +200,7 @@ RSpec.describe GamesController, type: :controller do
     context 'when anonymous' do
       before { put :take_money, id: game_w_questions.id }
 
-      it 'returns status not equal 200' do
-        expect(response.status).not_to eq(200)
-      end
+      it { expect(response_status).not_to eq(200) }
 
       it 'redirects to new_user_session_path' do
         expect(response).to redirect_to(new_user_session_path)
@@ -261,9 +250,7 @@ RSpec.describe GamesController, type: :controller do
     context 'when anonymous' do
       before { put :help, id: game_w_questions.id, help_type: :fifty_fifty }
 
-      it 'returns status not equal 200' do
-        expect(response.status).not_to eq(200)
-      end
+      it { expect(response_status).not_to eq(200) }
 
       it 'redirects to new_user_session_path' do
         expect(response).to redirect_to(new_user_session_path)
