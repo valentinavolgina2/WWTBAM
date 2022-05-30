@@ -4,8 +4,8 @@ RSpec.feature 'show user profile', type: :feature do
   let(:user) { create :user, name: 'Test user' }
 
   let!(:games) { [
-    create(:game, user: user, created_at: '2022.01.01 11:00', prize: 1000, current_level: 3, fifty_fifty_used: true),
-    create(:game, user: user, created_at: '2022.03.04 15:00', prize: 0, current_level: 0, is_failed: true, finished_at: '2021.03.04 15:05')] }
+    create(:game, id: 1000, user: user, created_at: '2022.01.01 11:00', prize: 1000, current_level: 3, fifty_fifty_used: true),
+    create(:game, id: 1001, user: user, created_at: '2022.03.04 15:00', prize: 0, current_level: 0, is_failed: true, finished_at: '2021.03.04 15:05')] }
 
   scenario 'success' do
     visit '/'
@@ -26,8 +26,8 @@ RSpec.feature 'show user profile', type: :feature do
     expect(page).to have_content '01 Jan 11:00'
 
     # check games' current levels
-    expect(page).to have_content '0'
-    expect(page).to have_content '3'
+    expect(find('#game_level_1000').text).to eq('3')
+    expect(find('#game_level_1001').text).to eq('0')
 
     # check games' prizes
     expect(page).to have_content '$0'

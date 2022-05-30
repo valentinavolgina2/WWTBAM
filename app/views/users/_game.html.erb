@@ -2,7 +2,7 @@
   <td><%= game.id %></td>
   <td><%= game_label(game) %></td>
   <td><%= l game.created_at, format: :short %></td>
-  <td><%= game.current_level %></td>
+  <td id="game_level_<%=game.id%>"><%= game.current_level %></td>
   <td><%= number_to_currency game.prize %></td>
   <td>
     <%= content_tag :span, '50/50',
